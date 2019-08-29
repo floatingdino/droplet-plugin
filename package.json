@@ -1,0 +1,16 @@
+{
+  "name": "droplet-plugin",
+  "version": "1.0.0",
+  "description": "Builds .liquid versions of your JS files with the public path defined so you can use dynamic imports",
+  "main": "droplet-plugin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/lambagency/droplet-plugin.git"
+  },
+  "author": "Sam Haakman",
+  "license": "UNLICENSED",
+  "homepage": "https://bitbucket.org/lambagency/droplet-plugin#readme"
+}
