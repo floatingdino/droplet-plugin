@@ -19,7 +19,9 @@ Use the Shopify CDN as Webpack's publicPath so that dynamic code splitting works
 {% capture cdn_path_basis %}{{ '?' | asset_url }}{% endcapture %}
 {% assign cdn_base = cdn_path_basis | split: '?' %}
 {% assign cdn_base = cdn_base[0] %}
-__webpack_public_path__ = {{ cdn_base | json }};`;
+// __webpack_public_path__ = {{ cdn_base | json }};`;
+
+        parent_source.replace('"PUBLIC_PATH"', "{{ cdn_base | json }}");
 
         compilation.assets[`${assetName}.liquid`] = {
           source() {
@@ -27,7 +29,7 @@ __webpack_public_path__ = {{ cdn_base | json }};`;
 ${parent_source}`;
           },
           size() {
-            return parent_source.length + liquid_bootstrap.length;
+            return parent_source.length + liquid_bootstrap.length + 8;
           }
         };
       });
