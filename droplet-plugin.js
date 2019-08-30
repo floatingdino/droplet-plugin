@@ -5,12 +5,16 @@ class DropletPlugin {
     this.entryRX = /^(?!(vendors|chunk).*$).*\.js$/;
   }
   apply(compiler) {
-    compiler.options.entry.map(entry =>
-      this.entryRX.test(entry)
-        ? `${entry}!droplet-plugin/droplet-loader`
-        : entry
-    );
-    console.log(compiler.options);
+    Object.keys(compiler.options.entry).forEach(entryKey => {
+      const entry = compiler.options.entry[entryKey];
+      if (!this.entryRX.test(entry)) {
+        return;
+      }
+      compiler.options.entry[
+        entryKey
+      ] = `droplet-plugin/droplet-loader!${entry}`;
+    });
+    console.log(compiler.options.entry);
     compiler.hooks.emit.tap(pluginName, compilation =>
       this.bootstrapEntries(compilation)
     );
