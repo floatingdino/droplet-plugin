@@ -12,5 +12,8 @@
   },
   "author": "Sam Haakman",
   "license": "UNLICENSED",
-  "homepage": "https://bitbucket.org/lambagency/droplet-plugin#readme"
+  "homepage": "https://bitbucket.org/lambagency/droplet-plugin#readme",
+  "dependencies": {
+    "webpack-inject-plugin": "^1.5.3"
+  }
 }
