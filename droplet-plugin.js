@@ -3,7 +3,7 @@ const pluginName = "DropletPlugin";
 class DropletPlugin {
   apply(compiler) {
     compiler.hooks.emit.tap(pluginName, compilation => {
-      const jsRX = /^(?!(vendors|chunk).*$)[^.]*\.js$/;
+      const jsRX = /^(?!(vendors|chunk).*$).*\.js$/;
       const assetNames = Object.keys(compilation.assets);
       assetNames.forEach(assetName => {
         if (!jsRX.test(assetName)) {
