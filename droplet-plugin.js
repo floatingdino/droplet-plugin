@@ -3,7 +3,7 @@ const pluginName = "DropletPlugin";
 class DropletPlugin {
   apply(compiler) {
     compiler.hooks.emit.tap(pluginName, compilation => {
-      const jsRX = /\.js$/;
+      const jsRX = /^(?!(vendors|chunk).*$)[^.]*\.js$/;
       const assetNames = Object.keys(compilation.assets);
       assetNames.forEach(assetName => {
         if (!jsRX.test(assetName)) {
@@ -11,15 +11,14 @@ class DropletPlugin {
         }
 
         const parent_source = compilation.assets[assetName].source();
-        const liquid_bootstrap = `{% comment %}
+        const liquid_bootstrap = `{%- comment -%}
 
 Use the Shopify CDN as Webpack's publicPath so that dynamic code splitting works
 
-{% endcomment %}
-{% capture cdn_path_basis %}{{ '?' | asset_url }}{% endcapture %}
-{% assign cdn_base = cdn_path_basis | split: '?' %}
-{% assign cdn_base = cdn_base[0] %}
-// __webpack_public_path__ = {{ cdn_base | json }};`;
+{%- endcomment -%}
+{%- capture cdn_path_basis -%}{{ '?' | asset_url }}{%- endcapture -%}
+{%- assign cdn_base = cdn_path_basis | split: '?' -%}
+{%- assign cdn_base = cdn_base[0] -%}`;
 
         const transformed_source = parent_source.replace(
           '"PUBLIC_PATH"',
