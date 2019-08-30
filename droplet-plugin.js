@@ -14,7 +14,7 @@ class DropletPlugin {
         entryKey
       ] = `droplet-plugin/droplet-loader!${entry}`;
     });
-    console.log(compiler.options.entry);
+
     compiler.hooks.emit.tap(pluginName, compilation =>
       this.bootstrapEntries(compilation)
     );
