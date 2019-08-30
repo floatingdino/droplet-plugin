@@ -1,31 +1,19 @@
-const WebpackInjectPlugin = require("webpack-inject-plugin");
-
-const publicPath = require("./public-path");
-
 const pluginName = "DropletPlugin";
 
 class DropletPlugin {
   constructor() {
-    this.targetRX = /^(?!(vendors|chunk).*$).*\.js$/;
+    this.entryRX = /^(?!(vendors|chunk).*$).*\.js$/;
   }
   apply(compiler) {
-    const injector = new WebpackInjectPlugin(function() {
-      return 'import { publicPath } from "droplet-plugin";'
-    }, {
-      entryName: (assetName) => this.targetRX.test(assetName)
-    });
-
-    injector.apply(compiler);
-
     compiler.hooks.emit.tap(pluginName, compilation =>
-      this.generateLiquid(compilation)
+      this.bootstrapEntries(compilation)
     );
   }
 
-  generateLiquid(compilation) {
+  bootstrapEntries(compilation) {
     const assetNames = Object.keys(compilation.assets);
     assetNames.forEach(assetName => {
-      if (!this.targetRX.test(assetName)) {
+      if (!this.entryRX.test(assetName)) {
         return;
       }
 
@@ -57,7 +45,4 @@ ${transformed_source}`;
   }
 }
 
-module.exports = {
-  default: DropletPlugin
-  publicPath
-};
+module.exports = DropletPlugin;
