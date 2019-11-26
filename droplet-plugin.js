@@ -34,8 +34,7 @@ Use the Shopify CDN as Webpack's publicPath so that dynamic code splitting works
 
 {%- endcomment -%}
 {%- capture cdn_path_basis -%}{{ '?' | asset_url }}{%- endcapture -%}
-{%- assign cdn_base = cdn_path_basis | split: '?' -%}
-{%- assign cdn_base = cdn_base[0] -%}`;
+{%- assign cdn_base = cdn_path_basis | split: '?' | first -%}`;
 
       const transformed_source = parent_source.replace(
         '"PUBLIC_PATH"',
