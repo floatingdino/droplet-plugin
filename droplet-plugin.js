@@ -3,6 +3,14 @@ const pluginName = "DropletPlugin";
 class DropletPlugin {
   constructor() {
     this.entryRX = /^(?!(vendors|chunk).*$).*\.js$/;
+    this.liquid_bootstrap = `{%- comment -%}
+
+This code added by Droplet Plugin.
+Use the Shopify CDN as Webpack's publicPath so that dynamic code splitting works
+
+{%- endcomment -%}
+{%- capture cdn_path_basis -%}{{ '?' | asset_url }}{%- endcapture -%}
+{%- assign cdn_base = cdn_path_basis | split: '?' | first -%}`;
   }
   apply(compiler) {
     Object.keys(compiler.options.entry).forEach(entryKey => {
@@ -10,6 +18,7 @@ class DropletPlugin {
       if (!this.entryRX.test(entry)) {
         return;
       }
+      // Add Droplet loader to JS entry points
       compiler.options.entry[
         entryKey
       ] = `droplet-plugin/droplet-loader!${entry}`;
@@ -28,26 +37,19 @@ class DropletPlugin {
       }
 
       const parent_source = compilation.assets[assetName].source();
-      const liquid_bootstrap = `{%- comment -%}
-
-Use the Shopify CDN as Webpack's publicPath so that dynamic code splitting works
-
-{%- endcomment -%}
-{%- capture cdn_path_basis -%}{{ '?' | asset_url }}{%- endcapture -%}
-{%- assign cdn_base = cdn_path_basis | split: '?' | first -%}`;
 
       const transformed_source = parent_source.replace(
-        '"PUBLIC_PATH"',
+        '"DROPLET_LOADER_PUBLIC_PATH"',
         "{{ cdn_base | json }}"
       );
 
       compilation.assets[`${assetName}.liquid`] = {
         source() {
-          return `${liquid_bootstrap}
+          return `${this.liquid_bootstrap}
 ${transformed_source}`;
         },
         size() {
-          return transformed_source.length + liquid_bootstrap.length;
+          return transformed_source.length + this.liquid_bootstrap.length;
         }
       };
     });

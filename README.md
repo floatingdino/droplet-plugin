@@ -11,3 +11,18 @@ plugins:
 
 This does not allow dynamic imports on its own, simply a method for Webpack to be able to find split files at runtime.
 Use a module such as `babel-plugin-syntax-dynamic-import` to enable dynamic imports.
+
+**Please note** Shopify won't let you upload files with a `~` in the file name, which is Webpack's default delimiter for combined chunks. You will probably need to edit this in your Slate / Webpack config using a config something like this (important point being `automaticNameDelimiter`):
+
+```
+optimization: {
+  splitChunks: {
+    chunks: "async",
+    minSize: 15000,
+    maxSize: 0,
+    minChunks: 1,
+    automaticNameDelimiter: "@",
+    name: true
+  }
+}
+```
