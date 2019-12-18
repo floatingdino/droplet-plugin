@@ -5,10 +5,10 @@
   "main": "droplet-plugin.js",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/lambagency/droplet-plugin.git"
+    "url": "https://github.com/floatingdino/droplet-plugin.git"
   },
   "author": "Sam Haakman (floatingdino@gmail.com)",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/lambagency/droplet-plugin#readme",
+  "homepage": "https://github.com/floatingdino/droplet-plugin",
   "dependencies": {}
 }
