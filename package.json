@@ -1,7 +1,7 @@
 {
   "name": "droplet-plugin",
   "version": "1.0.2",
-  "description": "Builds .liquid versions of your JS files with the public path defined so you can use dynamic imports",
+  "description": "Builds .liquid versions of your JS files with the public path defined so you can use dynamic imports in Shopify",
   "main": "droplet-plugin.js",
   "repository": {
     "type": "git",
