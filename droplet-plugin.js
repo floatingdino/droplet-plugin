@@ -44,11 +44,11 @@ Use the Shopify CDN as Webpack's publicPath so that dynamic code splitting works
       );
 
       compilation.assets[`${assetName}.liquid`] = {
-        source() {
+        source: () => {
           return `${this.liquid_bootstrap}
 ${transformed_source}`;
         },
-        size() {
+        size: () => {
           return transformed_source.length + this.liquid_bootstrap.length;
         }
       };
