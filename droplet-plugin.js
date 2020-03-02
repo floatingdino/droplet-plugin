@@ -32,7 +32,10 @@ Use the Shopify CDN as Webpack's publicPath so that dynamic code splitting works
   bootstrapEntries(compilation) {
     const assetNames = Object.keys(compilation.assets);
     assetNames.forEach(assetName => {
-      if (!this.entryRX.test(assetName)) {
+      if (
+        !this.entryRX.test(assetName) ||
+        !compilation.assets[assetName]._name
+      ) {
         return;
       }
 
