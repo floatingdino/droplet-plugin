@@ -34,7 +34,7 @@ Use the Shopify CDN as Webpack's publicPath so that dynamic code splitting works
     assetNames.forEach(assetName => {
       if (
         !this.entryRX.test(assetName) ||
-        !compilation.assets[assetName]._name
+        !compilation.assets[assetName].source()
       ) {
         return;
       }
